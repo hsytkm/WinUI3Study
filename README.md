@@ -33,6 +33,32 @@
 4. 個別のコンポーネント → Windows 10 SDK (10.0.19041.0) を選択します。※参照元の指示Version。最新候補は Windows 11 SDK (10.0.22621.0) でした。
 5. VisualStudio内の拡張機能から WinUI3 ~ Template Extension を全部インストールする。（ここはテキトー）
 
+## アプリインフラ
+
+##### Unpackaged リリース時の不要な言語フォルダ削除
+
+[WinUI 3 | Auto-removing language folders | WinAppSDK | XAML | C# | .NET | UWP | WPF - YouTube](https://www.youtube.com/watch?v=LHNahJi21Vg&t=29s&ab_channel=AndrewKeepCoding)
+
+```xaml
+<!-- .csproj -->
+<Target Name="RemoveFoldersWithMuiFiles" AfterTargets="Build" >
+  <ItemGroup>
+    <RemovingFiles Include="$(OutDir)*\*.mui" Exclude="$(OutDir)ja-jp\*.mui" />
+    <RemovingFolders Include="@(RemovingFiles->'%(RootDir)%(Directory)')" />
+  </ItemGroup>
+  <RemoveDir Directories="@(RemovingFolders)" />
+</Target>
+```
+
+
+
+## アプリ実装
+
+- ViewModel に `INotifyPropertyChanged` を継承させるのは同じっぽい。 MVVM やし当然なのかも。
+- MVVM インフラは、CommunityToolkit.Mvvm を導入すればよさそう。（WPF での学習が役に立って良かった）
+- DI は、Microsoft.Extensions.DependencyInjection でよさそう。（こちらも流用できた）
+- 
+
 ## 困ってること
 
 1. Single Exe を作成できない！！

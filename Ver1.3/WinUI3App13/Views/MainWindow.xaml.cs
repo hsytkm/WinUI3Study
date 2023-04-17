@@ -3,11 +3,14 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Windows.Graphics;
 using WinRT.Interop;
+using WinUI3App13.ViewModels;
 
-namespace WinUI3App13;
+namespace WinUI3App13.Views;
 
 public sealed partial class MainWindow : Window
 {
+    public MainWindowViewModel ViewModel { get; } = App.ViewModelLocator.GetViewModel<MainWindowViewModel>();
+
     public MainWindow()
     {
         InitializeComponent();
