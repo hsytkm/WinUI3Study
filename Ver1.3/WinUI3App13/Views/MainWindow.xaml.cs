@@ -1,8 +1,8 @@
-using Microsoft.UI;
+﻿using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Windows.Graphics;
-using WinRT.Interop;
 using WinUI3App13.ViewModels;
 
 namespace WinUI3App13.Views;
@@ -14,15 +14,23 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        SetWindowSize(this, 300, 200);
-    }
 
-    // �����܂ł��Ȃ��ƃE�B���h�E�T�C�Y��ύX�ł��Ȃ���H
-    static void SetWindowSize(Window window, int width, int height)
-    {
-        IntPtr hwnd = WindowNative.GetWindowHandle(window);
-        WindowId windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
-        AppWindow appWindow = AppWindow.GetFromWindowId(windowId);
-        appWindow.Resize(new SizeInt32(width, height));
+        AppWindow.Resize(new SizeInt32(300, 200));
+
+        // タスクバーとタイトルバーにアイコンを表示します
+        AppWindow.SetAppIcon("WinUI3App13.Resources.icon1.ico");  // [ProjName].[RelativePath]
+
+        // タイトルバーのアイコンを隠します
+        AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
+
+#if false
+        // [マイカ素材 - Windows apps | Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/apps/design/style/mica)
+        if (MicaController.IsSupported())
+            SystemBackdrop = new MicaBackdrop();
+#else
+        // [アクリル素材 - Windows apps | Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/apps/design/style/acrylic)
+        if (DesktopAcrylicController.IsSupported())
+            SystemBackdrop = new DesktopAcrylicBackdrop();
+#endif
     }
 }

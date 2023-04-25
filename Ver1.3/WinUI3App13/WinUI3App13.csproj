@@ -14,16 +14,22 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <WindowsPackageType>None</WindowsPackageType>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-    <ApplicationIcon>app.ico</ApplicationIcon>
+
+    <!-- exe のアイコン設定(アプリタイトルバーには反映されません) -->
+    <ApplicationIcon>Resources/icon2.ico</ApplicationIcon>
   </PropertyGroup>
 
   <!-- App内で Packaged を判別するためのマクロ定義 -->
-  <PropertyGroup Condition="'$(WindowsPackageType)' == 'None'" >
+  <PropertyGroup Condition="'$(WindowsPackageType)' == 'None'">
     <DefineConstants>IS_NON_PACKAGED</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="app.ico" />
+    <None Remove="Resources\icon1.ico" />
+    <None Remove="Resources\icon2.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
@@ -34,10 +40,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\icon1.ico" />
+    <EmbeddedResource Include="Resources\icon2.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230331000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -49,7 +61,7 @@
   </ItemGroup>
 
   <!-- 不要な言語フォルダの削除 -->
-  <Target Name="RemoveFoldersWithMuiFiles" AfterTargets="Build" >
+  <Target Name="RemoveFoldersWithMuiFiles" AfterTargets="Build">
     <ItemGroup>
       <RemovingFiles Include="$(OutDir)*\*.mui" Exclude="$(OutDir)ja-jp\*.mui" />
       <RemovingFolders Include="@(RemovingFiles->'%(RootDir)%(Directory)')" />
