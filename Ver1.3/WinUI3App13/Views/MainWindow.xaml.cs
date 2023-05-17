@@ -17,20 +17,29 @@ public sealed partial class MainWindow : Window
 
         AppWindow.Resize(new SizeInt32(300, 200));
 
-        // タスクバーとタイトルバーにアイコンを表示します
-        AppWindow.SetAppIcon("WinUI3App13.Resources.icon1.ico");  // [ProjName].[RelativePath]
+        // タスクバーとタイトルバーに影響するアイコンを表示します
+        AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Resources/icon1.ico"));
 
         // タイトルバーのアイコンを隠します
-        AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
+        //AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
 
-#if false
+        SystemBackdrop = GetSystemBackdrop();
+    }
+
+    private static SystemBackdrop? GetSystemBackdrop()
+    {
+        // [Windows 11 アプリで使用される素材 - Windows apps | Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/apps/design/signature-experiences/materials)
+        // アクリルは、ポップアップやコンテキスト メニューなどの、一時的に表示される簡易非表示サーフェスにのみ使用されます。
+        // とのことなので、マイカを優先して使用しましょう。
+
         // [マイカ素材 - Windows apps | Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/apps/design/style/mica)
         if (MicaController.IsSupported())
-            SystemBackdrop = new MicaBackdrop();
-#else
+            return new MicaBackdrop();
+
         // [アクリル素材 - Windows apps | Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/apps/design/style/acrylic)
         if (DesktopAcrylicController.IsSupported())
-            SystemBackdrop = new DesktopAcrylicBackdrop();
-#endif
+            return new DesktopAcrylicBackdrop();
+
+        return null;
     }
 }
