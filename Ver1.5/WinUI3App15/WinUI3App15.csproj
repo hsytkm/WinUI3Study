@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>WinUI3App15</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &gt;= 8">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &lt; 8">win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+    <!-- 上はプロジェクト生成時から存在していました。 -->
+
+    <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+
+    <!-- exe のアイコン設定(xamlで指定した場合アプリタイトルバーには反映されません) -->
+    <ApplicationIcon>Resources/icon2.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <!-- App内で Packaged を判別するためのマクロ定義 -->
+  <PropertyGroup Condition="'$(WindowsPackageType)' == 'None'">
+    <DefineConstants>IS_NON_PACKAGED</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\icon1.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\icon1.ico" />
+  </ItemGroup>
+
+</Project>
