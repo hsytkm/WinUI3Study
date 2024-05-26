@@ -62,9 +62,11 @@
 ## 困ってること
 
 1. Single Exe を作成できない！！
-3. 
+2. 
 
 ## References
 
 [Andrew KeepCoding - YouTube](https://www.youtube.com/@AndrewKeepCoding)
+
+[WPFからWinUI 3への移行チャレンジ その1 | ドクセル](https://www.docswell.com/s/suusanex/ZXYWWN-2023-06-01-181339)  @suusanex  2023.6.3 勉強会
 
